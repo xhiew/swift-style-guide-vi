@@ -88,7 +88,7 @@ Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/ma
 - Sử dụng tốt tên tham số miêu tả, vd: `func calculateArea(width: Double, height: Double)`.
 - Sử dụng các tham số có giá trị mặc định (nếu có thể) để làm giảm bớt số lượng tham số khi gọi hàm, vd: `func printName(firstName: String, lastName: String = "Hieu")`.
 
-###Delegates
+### Delegates
 > When creating custom delegate methods, an unnamed first parameter should be the delegate source.
 
 Ưu tiên:
@@ -101,7 +101,7 @@ Không ưu tiên:
   func didSelectName(namePicker: NamePickerViewController, name: String)
   func namePickerShouldReload() -> Bool
 ```
-###Use Type Inferred Context
+### Use Type Inferred Context
 > Trình biên dịch có thể tự suy luận ra ngữ cảnh để đoạn code ngắn gọn hơn
 
 Ưu tiên:
@@ -118,7 +118,7 @@ Không ưu tiên:
   let toView = context.view(forKey: UITransitionContextViewKey.to)
   let view = UIView(frame: CGRect.zero)
 ```
-###Generics
+### Generics
 Nên được đặt tên ở dạng UpperCamelCase, khi tên loại không có mối quan hệ sử dụng chữ cái viết hoa như `T`,`U`,`V`.
 
 Ưu tiên:
