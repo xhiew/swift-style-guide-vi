@@ -31,4 +31,18 @@ Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/ma
 - Đảm bảo sự rõ ràng và hiệu quả bằng cách sử dụng những từ cần thiết, tránh sử dụng các từ không cần thiết và lặp lại.
 - Sử dụng tên theo vai trò, không theo kiểu dữ liệu (vd: **numberOfLists** thay vì *intCounter*).
 - Bắt đầu tên của Factory Methods với `make`, vd: `x.makeIterator()`.
-- 
+- Đặt tên cho phương thức dựa trên tác động của chúng.
+    - Thêm đuôi '-ed' hoặc '-ing' cho phương thức non-mutating
+    ```swift
+    class TextEditor {
+      var text = ""
+    
+      func capitalized() -> String {
+        return text.uppercased()
+      }
+    
+      func appending(_ string: String) -> String {
+        return text + string
+      }
+    }
+    ```
