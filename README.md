@@ -2,7 +2,7 @@
 
 ⚠️ Đây chỉ là phần tóm tắt + một số ví dụ của mình sau khi mình tìm hiểu [The Official Kodeco Swift Style Guide](https://github.com/kodecocodes/swift-style-guide.git). ← Click nếu bạn muốn tìm hiểu chi tiết.
 
-⚠️ Mình cũng có bỏ qua một số phần, bản thân cho là không quan trọng lắm.
+⚠️ Mình cũng có bỏ qua một số phần, mình thấy không quan trọng lắm.
 
 ## Mục Lục
 
@@ -58,11 +58,11 @@ Cố gắng để code của bạn khi biên dịch không có cảnh báo ⚠�
 
 ## Using SwiftLint
 
-Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/main/SWIFTLINT.markdown) ở đây.
+Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/main/SWIFTLINT.markdown) tại đây.
 
 ## Naming
 
-- Cố gắng diễn đạt rõ ràng (Ưu tiên sự rõ ràng hơn là ngắn gọn).
+- Cố gắng diễn đạt rõ ràng (ưu tiên sự rõ ràng hơn là ngắn gọn).
 - Sử dụng camelCase thay vì snake_case.
 - Sử dụng 'UpperCamelCase' cho `Objects` và `Protocols`, 'lowerCamelCase' cho những thứ còn lại.
 - Đảm bảo sự rõ ràng và hiệu quả bằng cách sử dụng những từ cần thiết, tránh sử dụng các từ không cần thiết và lặp lại.
