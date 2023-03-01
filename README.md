@@ -70,6 +70,7 @@ Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/ma
 - Bắt đầu tên của Factory Methods với `make`, vd: `x.makeIterator()`.
 - Đặt tên cho phương thức dựa trên tác động của chúng.
     - Thêm đuôi '-ed' hoặc '-ing' cho phương thức **non-mutating**
+    
     Ví dụ:
     ```swift
     class TextEditor {
@@ -88,6 +89,7 @@ Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/ma
 
     - Kiểu `bool` nên được đặt như một sự khẳng định, vd: `isEmpty()`
     - Các `protocol` với mục đích để diễn tả đối tượng nên được đặt là một danh từ.
+    
     Ví dụ:
     ```swift
     protocol Vehicle {
@@ -106,6 +108,7 @@ Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/ma
     }
     ```
     - Các Protocol với mục đích để diễn tả khả năng của đối tượng nên kết thúc bằng '-able', 'ible'.
+    
     Ví dụ:
     ```swift
     protocol Printable {
@@ -249,7 +252,9 @@ Không nên:
 ```
 
 ### Minimal Imports
+
 - Chỉ nên `import` module mà source file yêu cầu, không nên `import UIKit` khi mà `import Foundation` đã đủ, tương tự không `import Foundation` khi đã `import UIKit`.
+
 Nên:
 ```swift
   import UIKit
@@ -281,7 +286,7 @@ Không nên:
 ## Spacing
 
 - Thụt đầu dòng bằng 2 spaces thay vì tab để tiết kiệm không gian, nhưng mình thấy Xcode mặc định (1 tab = 2 spaces) nên phần này không cần quan tâm lắm 😁.
-- Đối với phần dấu ngoặc nhọn của if/else/switch/while/etc.
+- Đối với phần dấu ngoặc nhọn của `if/else/switch/while/etc`.
 
 Nên:
 ```swift
@@ -301,7 +306,7 @@ Không nên:
     // Do something else
   }
 ```
-> Tip: bạn có thể Re-Indent bằng cách chọn đoạn code hoặc chọn tất cả bằng `cmd + A` sau đó ấn `Control + I` hoặc `Editor ▸ Structure ▸ Re-Indent` trên **Menu**
+> Tip: bạn có thể Re-Indent bằng cách chọn đoạn code hoặc chọn tất cả bằng `cmd + A` sau đó `Control + I` hoặc `Editor ▸ Structure ▸ Re-Indent` trên **Menu**
 - Nên có một dòng trống để phân cách các phương thức.
 - Trong phương thức phân cách các chức năng bằng một dòng trắng, nhưng nếu có nhiều khoảng trắng thì bạn nên cấu trúc lại thành nhiều phương thức có chức năng riêng.
 - Không nên có dòng trống sau dấu ngoặc nhọn mở hoặc trước dấu ngoặc nhọn đóng.
@@ -321,6 +326,7 @@ Không nên:
   ) //<-- xuất hiện một mình trên 1 dòng
 ```
 - Dấu `:` luôn không có khoảng cách ở bên trái, và 1 space ở phía bên phải. Ngoại lệ trong toán tử bậc 3 `age >= 18 ? "Yes" : "No"`, một Dictionary rỗng `[:]` và `#selector` cú pháp `addTarget(_:action:)` (vì trường hợp này 2 phía đều 0 space).
+
 Nên:
 ```swift
   class TestDatabase: Database {
