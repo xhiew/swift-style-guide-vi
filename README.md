@@ -2,7 +2,7 @@
 
 ⚠️ Đây chỉ là phần tóm tắt + một số ví dụ của mình sau khi mình tìm hiểu [The Official Kodeco Swift Style Guide](https://github.com/kodecocodes/swift-style-guide.git). ← Click nếu bạn muốn tìm hiểu chi tiết.
 
-⚠️ Mình cũng có bỏ qua một số phần, mình thấy không quan trọng lắm.
+⚠️ Mình cũng có bỏ qua một số phần mà mình thấy không quan trọng lắm.
 
 ## Mục Lục
 
@@ -129,7 +129,7 @@ Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/ma
 > Generics là kiểu đại diện cho bất kỳ kiểu dữ liệu nào trong Swift.
 
 - Sử dụng tốt tên tham số miêu tả, vd: `func calculateArea(width: Double, height: Double)`.
-- Sử dụng các tham số có giá trị mặc định (nếu có thể) để làm giảm bớt số lượng tham số khi gọi hàm, vd: `func printName(firstName: String, lastName: String = "Hieu")`.
+- Sử dụng các tham số có giá trị mặc định (nếu có thể) để làm giảm bớt số lượng tham số khi gọi hàm, vd: `func printName(firstName: String, lastName: String = "Ngo")`.
 
 ### Delegates
 
@@ -188,11 +188,11 @@ Không nên:
 
 Nên:
 ```swift
-  let color = "red"
+  let color = "pink"
 ```
 Không nên:
 ```swift
-  let colour = "red"
+  let colour = "pink"
 ```
 
 ## Code Organization
@@ -327,7 +327,7 @@ Không nên:
     on: connection
   ) //<-- xuất hiện một mình trên 1 dòng
 ```
-- Dấu `:` luôn không có khoảng cách ở bên trái, và 1 space ở phía bên phải. Ngoại lệ trong cú pháp toán tử bậc 3 `age >= 18 ? "Yes" : "No"`, một Dictionary rỗng `[:]` và `#selector` cú pháp `addTarget(_:action:)` (vì trường hợp này 2 phía đều 0 space).
+- Dấu `:` luôn không có khoảng cách ở bên trái, và 1 space ở phía bên phải. Ngoại lệ trong cú pháp toán tử bậc 3 `age >= 18 ? "Yes" : "No"` hay một Dictionary rỗng `[:]` và `#selector` cú pháp `addTarget(_:action:)` (vì trường hợp này 2 phía đều 0 space).
 
 Nên:
 ```swift
@@ -704,4 +704,77 @@ Không nên:
 
 ## Functions vs Methods
 
+Các hàm tự do (Free functions), không được liên kết với một lớp hay kiểu dữ liệu nào, nên được sử dụng một cách hạn chế. Khi có thể, nên ưu tiên sử dụng phương thức thay vì hàm tự do. Việc này giúp cho code dễ đọc và dễ tìm kiếm hơn.
+
+Hàm tự do thường phù hợp nhất khi chúng không liên quan đến bất kỳ kiểu dữ liệu hay thực thể cụ thể nào.
+
+#### Nên:
+
+```swift
+  let sorted = items.mergeSorted()  // easily discoverable
+  rocket.launch()  // acts on the model
+```
+
+#### Không nên:
+
+```swift
+  let sorted = mergeSort(items)  // hard to discover
+  launch(&rocket)
+```
+
+#### Có thể dùng trong 1 số trường hợp như:
+
+```swift
+  let tuples = zip(a, b)  // feels natural as a free function (symmetry)
+  let value = max(x, y, z)  // another free function that feels natural
+```
+
+## Memory Management
+
+Code kể cả demo, không phải sản phẩm thực tế thì không nên tạo một reference cycles, ngăn ngừa tham chiếu mạnh bằng `[weak self]`, `[unowned self]` hoặc sử dụng `struct`, `enum`.
+
+Kéo dài lifetime của đối tượng bằng cú pháp `[weak self]` và `guard let self = self else { return }`. `[weak self]` thường được sử dụng nhiều hơn `[unowned self]`.
+
+Phân biệt `[weak self]`, `[unowned self]`:
+- Giống nhau: Đều giữ cho đối tượng sống lâu hơn, hoàn thành nhiệm vụ trước khi được giải phóng khỏi bộ nhớ.
+
+- Khác nhau: 
+- [x] `[weak self]` trả về một `optional` nên khi dùng cần phải kiểm tra xem có nil không trước khi truy cập vào đối tượng.
+- [ ]  `[unowned self]` trả về một `non-optional` nên nếu đối tượng bị giải phóng trước khi closure hoàn thành thì dẫn đến **crash** ứng dụng.
+
+ #### Nên:
+
+```swift
+  resource.request().onComplete { [weak self] response in
+    guard let self = self else {
+      return
+    }
+    let model = self.updateModel(response)
+    self.updateUI(model)
+  }
+```
+
+#### Không nên:
+
+```swift
+  // might crash if self is released before response returns
+  resource.request().onComplete { [unowned self] response in
+    let model = self.updateModel(response)
+    self.updateUI(model)
+  }
+```
+
+#### Không nên:
+
+```swift
+  // deallocate could happen between updating the model and updating UI
+  resource.request().onComplete { [weak self] response in
+    let model = self?.updateModel(response)
+    self?.updateUI(model)
+  }
+```
+
+> `Deallocate` đề cập đến việc giải phóng bộ nhớ của một đối tượng trong Swift khi không còn tham chiếu nào đến đối tượng đó nữa, ở ví dụ **Không nên** thứ hai, đối tượng vẫn có thể bị giải phóng ngay trong khi đang cập nhật lại UI hoặc model.
+
+## Access Control
 
