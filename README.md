@@ -104,7 +104,7 @@ Tìm hiểu [SwiftLint](https://github.com/kodecocodes/swift-style-guide/blob/ma
       var color: String { return "blue"}
     }
     ```
-    - Các `protocol` với mục đích để diễn tả khả năng của đối tượng nên kết thúc bằng '-able', 'ible'.
+    - Các `protocol` với mục đích để diễn tả khả năng của đối tượng nên kết thúc bằng `-able`, `-ible`.
     
     Ví dụ:
     ```swift
