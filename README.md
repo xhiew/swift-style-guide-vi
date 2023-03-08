@@ -1,4 +1,4 @@
-# Kodeco Swift Style Vietnamese Version 🇻🇳 (Unofficial)
+# Kodeco Swift Style Guide Vietnamese Version 🇻🇳 (Unofficial)
 
 ⚠️ Đây chỉ là phần tóm tắt + một số ví dụ của mình sau khi mình tìm hiểu [The Official Kodeco Swift Style Guide](https://github.com/kodecocodes/swift-style-guide.git). ← Click nếu bạn muốn tìm hiểu chi tiết.
 
@@ -40,13 +40,11 @@
 * [Control Flow](#control-flow)
   * [Ternary Operator](#ternary-operator)
 * [Golden Path](#golden-path)
-  * [Failing Guards](#failing-guards)
 * [Semicolons](#semicolons)
 * [Parentheses](#parentheses)
 * [Multi-line String Literals](#multi-line-string-literals)
 * [No Emoji](#no-emoji)
 * [No #imageLiteral or #colorLiteral](#no-imageliteral-or-colorliteral)
-* [Organization and Bundle Identifier](#organization-and-bundle-identifier)
 * [Copyright Statement](#copyright-statement)
 * [Smiley Face](#smiley-face)
 * [References](#references)
@@ -327,7 +325,7 @@ Không nên:
     on: connection
   ) //<-- xuất hiện một mình trên 1 dòng
 ```
-- Dấu `:` luôn không có khoảng cách ở bên trái, và 1 space ở phía bên phải. Ngoại lệ trong cú pháp toán tử bậc 3 `age >= 18 ? "Yes" : "No"` hay một Dictionary rỗng `[:]` và `#selector` cú pháp `addTarget(_:action:)` (vì trường hợp này 2 phía đều 0 space).
+- Dấu `:` luôn không có khoảng cách ở bên trái, và 1 space ở phía bên phải. Ngoại lệ trong cú pháp toán tử bậc 3 (toán tử 3 ngôi) `age >= 18 ? "Yes" : "No"` hay một Dictionary rỗng `[:]` và `#selector` cú pháp `addTarget(_:action:)` (vì trường hợp này 2 phía đều 0 space).
 
 Nên:
 ```swift
@@ -742,7 +740,7 @@ Phân biệt `[weak self]`, `[unowned self]`:
 - [x] `[weak self]` trả về một `optional` nên khi dùng cần phải kiểm tra xem có nil không trước khi truy cập vào đối tượng.
 - [ ]  `[unowned self]` trả về một `non-optional` nên nếu đối tượng bị giải phóng trước khi closure hoàn thành thì dẫn đến **crash** ứng dụng.
 
- #### Nên:
+#### Nên:
 
 ```swift
   resource.request().onComplete { [weak self] response in
@@ -778,3 +776,245 @@ Phân biệt `[weak self]`, `[unowned self]`:
 
 ## Access Control
 
+Ghi đầy đủ `access control` có thể làm sao lãng đến chủ đề chính, và không cần thiết phải làm vậy. Tuy nhiên nếu sử dụng `private` và `fileprivate` một cách phù hợp sẽ làm rõ ràng hơn và tăng tính đóng gói. Nên ưu tiên sử dụng `private` hơn và chỉ dùng `fileprivate` khi mà trình biên dịch yêu cầu.
+
+Chỉ sử dụng `open`, `public` và `internal` khi bạn cần một thông số kiểm soát truy cập đầy đủ.
+
+Các `access control` sẽ đứng sau từ khóa `static` hoặc các thuộc tính như `@IBAction`, `@IBOutlet` và `@discardableResult`.
+
+Nên:
+```swift
+  private let message = "Great Scott!"
+
+  class TimeMachine {  
+    private dynamic lazy var fluxCapacitor = FluxCapacitor()
+  }
+```
+Không nên:
+```swift
+  fileprivate let message = "Great Scott!"
+
+  class TimeMachine {  
+    lazy dynamic private var fluxCapacitor = FluxCapacitor()
+  }
+```
+
+## Control Flow
+
+> Ưu tiên sử dụng vòng lặp `for-in` hơn là `while-condition-increment`.
+
+Nên:
+```swift
+  for _ in 0..<3 {
+    print("Hello three times")
+  }
+
+  for (index, person) in attendeeList.enumerated() {
+    print("\(person) is at position #\(index)")
+  }
+
+  for index in stride(from: 0, to: items.count, by: 2) {
+    print(index)
+  }
+
+  for index in (0...3).reversed() {
+    print(index)
+  }
+```
+Không nên:
+```swift
+  var i = 0
+  while i < 3 {
+    print("Hello three times")
+    i += 1
+  }
+
+  var i = 0
+  while i < attendeeList.count {
+    let person = attendeeList[i]
+    print("\(person) is at position #\(i)")
+    i += 1
+  }
+```
+
+### Ternary Operator
+
+Chỉ dùng toán tử 3 ngôi khi nó làm tăng sự gọn gàng, dễ hiểu của code, dưới đây là cách nên dùng và không nên dùng:
+
+Nên:
+```swift
+  let value = 5
+  result = value != 0 ? x : y
+
+  let isHorizontal = true
+  result = isHorizontal ? x : y
+```
+Không nên:
+```swift
+  result = a > b ? x = c > d ? c : d : y // thảm hoạ
+```
+
+## Golden Path
+
+Khi code với câu điều kiện nếu lồng các câu lệnh `if` với nhau sẽ làm đoạn code bị rối và khó đọc và câu lệnh `guard` sinh ra để giải quyết vấn đề này.
+
+Nên:
+```swift
+  func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+    guard let context = context else {
+      throw FFTError.noContext
+    }
+    guard let inputData = inputData else {
+      throw FFTError.noInputData
+    }
+
+    // use context and input to compute the frequencies
+    return frequencies
+  }
+```
+Không nên:
+```swift
+  func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+    if let context = context {
+      if let inputData = inputData {
+        // use context and input to compute the frequencies
+
+        return frequencies
+      } else {
+        throw FFTError.noInputData
+      }
+    } else {
+      throw FFTError.noContext
+    }
+  }
+```
+
+Khi `unwrapped` nhiều optional với `guard` hoặc `if let`, tối thiểu hóa các "lồng nhau" bằng cách sử dụng phiên bản kết hợp nếu có thể, dưới đây là ví dụ:
+
+Nên:
+```swift
+  guard 
+    let number1 = number1,
+    let number2 = number2,
+    let number3 = number3 
+  else {
+    fatalError("impossible")
+  }
+  // do something with numbers
+```
+Không nên:
+```swift
+  if let number1 = number1 {
+    if let number2 = number2 {
+      if let number3 = number3 {
+        // do something with numbers
+      } else {
+        fatalError("impossible")
+      }
+    } else {
+      fatalError("impossible")
+    }
+  } else {
+    fatalError("impossible")
+  }
+```
+
+## Semicolons
+
+Swift không yêu cầu `;` sau mỗi đoạn code của bạn, bạn chỉ sử dụng nếu trên một dòng có nhiều đoạn code. Nhưng tuy nhiên bạn không nên kết hợp nhiều câu lệnh trên cùng một dòng.
+
+Nên:
+```swift
+  let swift = "not a scripting language"
+```
+
+Không nên:
+```swift
+  let swift = "not a scripting language";
+```
+
+## Parentheses
+
+Việc sử dụng dấu ngoặc đơn quanh điều kiện là không bắt buộc và nên loại bỏ nó.
+
+Nên:
+```swift
+  if name == "Hello" {
+    print("World")
+  }
+```
+
+Không nên:
+```swift
+  if (name == "Hello") {
+    print("World")
+  }
+```
+
+Dấu ngoặc đơn có thể làm code của bạn dễ đọc hơn trong trường hợp này :
+
+```swift
+  let playerMark = (player == current ? "X" : "O")
+```
+
+## Multi-line String Literals
+
+Khi làm việc với văn bản có nhiều dòng bạn nên sử dụng `"""`.
+
+Nên:
+```swift
+  let message = """
+    You cannot charge the flux \
+    capacitor with a 9V battery.
+    You must use a super-charger \
+    which costs 10 credits. You currently \
+    have \(credits) credits available.
+  """
+```
+
+Không nên:
+```swift
+  let message = """You cannot charge the flux \
+    capacitor with a 9V battery.
+    You must use a super-charger \
+    which costs 10 credits. You currently \
+    have \(credits) credits available.
+  """
+```
+
+Không nên:
+```swift
+  let message = "You cannot charge the flux " +
+    "capacitor with a 9V battery.\n" +
+    "You must use a super-charger " +
+    "which costs 10 credits. You currently " +
+    "have \(credits) credits available."
+```
+
+## No Emoji
+
+> Đừng sử dụng biểu tượng trong `project` của bạn, mặc dù nó dễ thương. Nên sử dụng `emoji` nếu viết `markdown`.
+
+## No #imageLiteral or #colorLiteral
+
+> Thay vào đó hãy sử dụng `UIColor(red:green:blue)`, `UIImage(imageLiteralResourceName:)`,...
+
+## Smiley Face
+
+Nên:
+```swift
+  :]
+```
+
+Không nên:
+```swift
+  :)
+```
+> Nụ cười `:)` không thành tâm cho lắm 😂.
+
+## References
+
+* [The Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+* [The Swift Programming Language](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/index.html)
+* [Using Swift with Cocoa and Objective-C](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/index.html)
+* [Swift Standard Library Reference](https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/SwiftStandardLibraryReference/index.html)
