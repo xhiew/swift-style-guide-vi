@@ -1,8 +1,8 @@
-# Kodeco Swift Style Guide Vietnamese Version 🇻🇳 (Unofficial)
+# Kodeco Swift Style Guide 🇻🇳
 
-⚠️ Đây chỉ là phần tóm tắt + một số ví dụ của mình sau khi mình tìm hiểu [The Official Kodeco Swift Style Guide](https://github.com/kodecocodes/swift-style-guide.git)←
+⚠️ Đây chỉ là phần tóm tắt + một số ví dụ của mình sau khi tìm hiểu [The Official Kodeco Swift Style Guide](https://github.com/kodecocodes/swift-style-guide.git)←
 
-⚠️ Mình cũng có bỏ qua một số phần mà mình thấy không quan trọng lắm.
+⚠️ Có bỏ qua một số phần mà thấy không quan trọng lắm.
 
 ## Mục Lục
 
